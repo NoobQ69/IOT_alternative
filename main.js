@@ -165,7 +165,7 @@ function handleSubmitTime(getValue, format, pathToSend)
 
 function handleSubmitTemperature(getValue, pathToSend)
 {
-    var numberValue = parseInt(getValue.value);
+    var numberValue = parseFloat(getValue.value);
     if (numberValue > 60 || numberValue < 0) {
         numberValue = format;
         Swal.fire({
