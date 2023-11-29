@@ -139,10 +139,19 @@ function handleSubmitTime(getValue, format, pathToSend)
     var numberValue = getValue.value;
     if (numberValue > format) {
         numberValue = format;
+        var alertText = "";
+        if (format > 24)
+        {
+            alertText = "Phút và giây không lớn hơn 59!";
+        }
+        else 
+        {
+            alertText = 'Bạn chỉ có thể đặt tối đa là 24 giờ!';
+        }
         Swal.fire({
             icon: 'error',
             title: 'Cảnh báo.',
-            text: 'Bạn chỉ có thể đặt tối đa là 24 giờ',
+            text: alertText,
             //   footer: '<a href="">Why do I have this issue?</a>'
         })
     }
@@ -165,7 +174,7 @@ function handleSubmitTime(getValue, format, pathToSend)
 
 function handleSubmitTemperature(getValue, pathToSend)
 {
-    var numberValue = parseFloat(getValue.value);
+    var numberValue = parseInt(getValue.value);
     if (numberValue > 60 || numberValue < 0) {
         numberValue = format;
         Swal.fire({
