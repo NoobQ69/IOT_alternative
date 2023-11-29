@@ -1,0 +1,364 @@
+<!-- HOME TAB -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Home</title>
+	<meta charset="utf-8">
+	<meta name="format-detection" content="telephone=no" />
+	<link rel="icon" href="images/favicon.ico">
+	<link rel="shortcut icon" href="images/favicon.ico" />
+	<link rel="stylesheet" href="css/owl.carousel.css">
+	<link rel="stylesheet" href="css/slider.css">
+	<link rel="stylesheet" href="css/style.css">
+	<script src="js/jquery.js"></script>
+	<script src="js/jquery-migrate-1.1.1.js"></script>
+	<script src="js/script.js"></script>
+	<script src="js/jquery.ui.totop.js"></script>
+	<script src="js/superfish.js"></script>
+	<script src="js/jquery.equalheights.js"></script>
+	<script src="js/jquery.mobilemenu.js"></script>
+	<script src="js/jquery.easing.1.3.js"></script>
+	<script src="js/owl.carousel.js"></script>
+	<script src="js/jquery.flexslider-min.js"></script>
+	<script src="js/kwiks.js"></script>
+	<script>
+		$(document).ready(function () {
+			$().UItoTop({ easingType: 'easeOutQuart' });
+			var owl = $("#owl");
+			owl.owlCarousel({
+				items: 4, //10 items above 1000px browser width
+				itemsDesktop: [995, 3], //5 items between 1000px and 901px
+				itemsDesktopSmall: [767, 2], // betweem 900px and 601px
+				itemsTablet: [700, 2], //2 items between 600 and 0
+				itemsMobile: [479, 1], // itemsMobile disabled - inherit from itemsTablet option
+				navigation: true,
+			});
+		})
+		var Main = Main || {};
+		jQuery(window).load(function () {
+			window.responsiveFlag = jQuery('#responsiveFlag').css('display');
+			Main.gallery = new Gallery();
+			jQuery(window).resize(function () {
+				Main.gallery.update();
+			});
+		});
+		function Gallery() {
+			var self = this,
+				container = jQuery('.flexslider'),
+				clone = container.clone(false);
+			this.init = function () {
+				if (responsiveFlag == 'block') {
+					var slides = container.find('.slides');
+					slides.kwicks({
+						max: 500,
+						spacing: 0
+					}).find('li > a').click(function () {
+						return false;
+					});
+				} else {
+					container.flexslider();
+				}
+			}
+			this.update = function () {
+				var currentState = jQuery('#responsiveFlag').css('display');
+				if (responsiveFlag != currentState) {
+					responsiveFlag = currentState;
+					container.replaceWith(clone);
+					container = clone;
+					clone = container.clone(false);
+					this.init();
+				}
+			}
+			this.init();
+		}
+	</script>
+
+<body class="page1" id="top">
+	<!--==============================header=================================-->
+	<header>
+		<div class="clear"></div>
+		<div class="container_12">
+			<a href="index.html">
+			<img src="images2/LOGO2.png"  style="width: 60%;">
+		</a>
+			<div class="grid_12">
+				
+				<div class="menu_block">
+					<nav class="horizontal-nav full-width horizontalNav-notprocessed">
+						<ul class="sf-menu">
+							<li class="current"><a href="index.html">Home</a>
+								<ul>
+									<li><a href="#">history</a></li>
+									<li><a href="#">offers</a></li>
+									<li><a href="#">news</a>
+										<ul>
+											<li><a href="#">fresh </a></li>
+											<li><a href="#">archive</a></li>
+										</ul>
+								</ul>
+							</li>
+							<li><a href="index-1.html">News </a></li>
+							<li><a href="index-2.html">Data</a></li>
+
+							<li><a href="index-3.html">Contacts</a></li>
+						</ul>
+					</nav>
+					<div class="clear"></div>
+				</div>
+				<div class="clear"></div>
+			</div>
+		</div>
+
+		<style>
+			*,
+			*:before,
+			*:after {
+				box-sizing: inherit;
+			}
+
+			.row {
+				display: flex;
+				justify-content: center;
+				
+			}
+
+
+			.column {
+				margin: 0px;
+				padding: -1px; 
+				float: left;
+				width: 20%;
+				/* margin-bottom: 6px; */
+				/* padding: 0 3px; */
+				height: 8px;
+				transition: transform 0.3s;
+				/* Thêm hiệu ứng chuyển động */
+				
+			}
+
+			.column:hover {
+				transform: scale(1.1);
+				/* Khi chạm vào, phóng to hình ảnh */
+			}
+
+			@media screen and (max-width: 650px) {
+				.column {
+					width: 30%;
+					
+					display: block;
+					margin-left: auto;
+					margin-right: auto;
+				}
+			}
+
+			.card {
+				box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.2);
+				padding: 5px;
+				
+			}
+
+			.container {
+				padding: 10 10px;
+			}
+
+			.container::after,
+			.row::after {
+				content: "";
+				clear: both;
+				display: table;
+			}
+
+			.title {
+				color: grey;
+			}
+
+			
+			.card h4,
+			.card p {
+				margin-bottom: 1px;
+			}
+
+			.button:hover {
+				background-color: #555;
+			}
+		</style>
+
+	</header>
+	<div class="main">
+		<!--==============================Content=================================-->
+		<div class="content">
+			<div class="ic"></div>
+			<div class="container_12">
+				<div class="grid_8">
+					<div class="flexslider">
+						<ul class="slides">
+							<li>
+								<img src="images2/ct.jpg" alt="goi1">
+								<div class="flex-caption">
+									<p>IOT</p>
+								</div>
+							</li>
+							<li>
+								<img src="images2/esp32iot.jpg" alt="goi2">
+								<div class="flex-caption c2">
+									<p>HEALTH</p>
+								</div>
+							</li>
+							<li>
+								<img src="images2/iot.jpg" alt="goi3">
+								<div class="flex-caption">
+									<p>PILLOW</p>
+								</div>
+							</li>
+						</ul>
+					</div>
+					<span id="responsiveFlag"></span>
+				</div>
+				<div class="grid_4" style=" text-align: justify;">
+					<a href="#" class="donate">Introduce</a>
+					<div style="font-size: 30px; line-height: 1.2;margin-bottom: -30px;" class="text1">Gối ngồi giúp giám sát thời gian ngồi làm việc</div>
+					<p style="font-size: 19px; line-height: 1.2;margin-bottom: -35px;" class="text1">Đây là một sản phẩm sẽ giúp bạn giám sát thời gian ngồi làm việc để đưa ra các cảnh báo khi bạn ngồi làm việc quá lâu.</p>
+					<p style="font-size: 19px; line-height: 1.2" class="text1">Sản phẩm dựa trên công nghệ IOT để truyền thông và lữu trữ dữ liệu trên server. Được phát triển bởi nhóm sinh viên trường Bách Khoa, trường Đại học Cần Thơ trong quá trình làm đồ án môn học.</p>
+				</div>
+
+				<div class="clear"></div>
+				<div class="grid_12">
+					<h2>Thành viên của dự án</h2>
+					<br>
+
+					<div class="row">
+						<div class="column">
+							<div class="card">
+								
+								<div class="container">
+									<img src="images2/a4.jpg" alt="phuoc" style="width:100%;">
+									<br><br>	
+									<p style="font-size: 18px;color: aqua;">NGUYỄN HỮU PHƯỚC</p>
+									
+									<p class="title" style="color: rgb(255, 255, 255);">B2012457</p>
+
+									<p style="font-size: 15px;">Kỹ thuật cơ điện tử</p>
+
+								</div>
+							</div>
+						</div>
+
+						
+
+						<div class="column">
+							<div class="card">
+								<img src="images2/a1.jpg" alt="John" style="width:100%;">
+								<br><br>	
+									<p style="font-size: 18px;color: rgb(33, 245, 65);">BÙI ĐĂNG KHOA</p>
+									
+									<br>
+									<p class="title" style="color: rgb(255, 255, 255);">B1913039</p>
+
+									<p style="font-size: 15px;">Kỹ thuật tự động hóa</p>
+							</div>
+						</div>
+						<div class="column">
+							<div class="card">
+								<img src="images2/a2.jpg" alt="Mike" style="width:100%;">
+								<br><br>	
+									<p style="font-size: 18px;color: rgb(252, 122, 224);">LÊ THỊ MINH THƯ</p>
+									
+									<p class="title" style="color: rgb(255, 255, 255);">B1905846</p>
+
+									<p style="font-size: 15px;">Quản lý công nghiệp</p>
+								
+							</div>
+						</div>
+
+						<div class="column">
+							<div class="card">
+								<img src="images2/a3.jpg" alt="Jane" style="width:100%;">
+								<br><br>	
+									<p style="font-size: 18px;color: rgb(79, 176, 245);">NGUYỄN THIỆN QUANG</p>
+									
+									<p class="title" style="color: rgb(255, 255, 255);">B2012527</p>
+
+									<p style="font-size: 15px;">Kỹ thuật cơ điện tử</p>
+							</div>
+						</div>
+
+						<div class="column">
+							<div class="card">
+								<img src="images2/a5.jpg" alt="Jane" style="width:100%;">
+								<br><br>	
+									<p style="font-size: 18px;color: rgb(255, 196, 0);">LÂM NGUYỄN TIẾN ĐẠT</p>
+									
+									<p class="title" style="color: rgb(255, 255, 255);">B1905902</p>
+
+									<p style="font-size: 15px;">Quản lý công nghiệp</p>
+							</div>
+						</div>
+						<div class="column">
+							<div class="card">
+								<img src="images2/a6.jpg" alt="Jane" style="width:100%;">
+								<br><br>	
+									<p style="font-size: 15px;color: rgb(229, 255, 0);">NGUYỄN DƯƠNG MINH TRIẾT</p>
+									
+									<p class="title" style="color: rgb(255, 255, 255);">B1907087</p>
+
+									<p style="font-size: 15px;">Kỹ thuật cơ điện tử</p>
+							</div>
+						</div>
+					
+					</div>
+
+				</div>
+				
+
+				<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+				<div>
+					<p style="font-size: 20px;line-height: 1.5;color: rgb(86, 181, 249);">Đội ngũ tham gia dự án bao gồm 6 thành viên. Trong đó có 2 thành viên thuộc ngành quản lý công nghiệp, 1 thành viên thuộc ngành tự động hóa và 3 thành viên còn lại thuộc ngành kỹ thuật cơ điện tử. </p>
+				</div>
+				<div class="grid_4">
+					<h3 class="nowrap mb0"> Đồ án kỹ thuật IOT</h3>
+					<time class="st1">Mã học phần KC326</time>
+					Đây là một sản phẩm đồ án cho học phần kỹ thuật IOT và ứng dụng năm học 2023.
+					<br><br>
+					<img src="images2/esp32.jpg"  style="width:100%; margin-left: 0px; margin-right: auto;">
+				</div>
+				
+				<div class="grid_7 prefix_1">
+					<h3 style="margin-left: 140px;margin-right: auto">Giảng viên hướng dẫn</h3>
+					<br>
+					<img src="images2/khanh.jpg"  style="width:50%; margin-left: 190px; margin-right: auto;box-shadow: 0 0 10px 10px rgba(0, 187, 255, 0.5);">
+					
+					
+					<div class="clear"></div>
+					<br>	<br>
+					<p style="font-size: 20px;margin-left: 200px; margin-right: auto">Tiến sĩ: Nguyễn Văn Khanh </p>
+					<p style="font-size: 20px;margin-left: 200px; margin-right: auto">Email: vankhanh@ctu.edu.vn </p>
+					<a href="https://qldiem.ctu.edu.vn/htql/canbo/llkh/codes/LyLichKhoaHoc_in.php?macb=002128" target="_blank" class="button" style="display: inline-block;padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px;margin-left: 270px; margin-right: auto">Xem thêm</a>
+				</div>
+			</div>
+		</div>
+		<!--==============================footer=================================-->
+		<footer>
+			<div class="hor bg3"></div>
+			<div class="container_12">
+				<div class="grid_12 ">
+					<div class="socials">
+						<a href="#"></a>
+						<a href="#"></a>
+						<a href="#"></a>
+						<div class="clear"></div>
+					</div>
+					<div class="copy">
+						<strong>IOT Health Pillow</strong> &copy; <span id="copyright-year"
+							style="color: rgb(251, 251, 252);"></span> | <a href="#"
+							style="color: rgb(251, 251, 252);">Privacy Policy</a> <br>
+						<a style="color: rgb(251, 251, 252);">Website designed by Huu Phuoc
+							Nguyen</a>
+					</div>
+				</div>
+			</div>
+		</footer>
+	</div>
+</body>
+
+</html>

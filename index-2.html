@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+	<title>IOT PILLOW</title>
+	<meta charset="utf-8">
+	<meta name="format-detection" content="telephone=no" />
+	<link rel="icon" href="images/favicon.ico">
+	<link rel="shortcut icon" href="images/favicon.ico" />
+	<link rel="stylesheet" href="css/style.css">
+	<script src="js/jquery.js"></script>
+	<script src="js/jquery-migrate-1.1.1.js"></script>
+	<script src="js/script.js"></script>
+	<script src="js/jquery.ui.totop.js"></script>
+	<script src="js/superfish.js"></script>
+	<script src="js/jquery.equalheights.js"></script>
+	<script src="js/jquery.mobilemenu.js"></script>
+	<script src="js/jquery.easing.1.3.js"></script>
+
+	<link rel="stylesheet" href="./style.css"/>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.4/dist/sweetalert2.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.4/dist/sweetalert2.all.min.js"></script>
+
+	<script>
+		$(document).ready(function () {
+			$().UItoTop({ easingType: 'easeOutQuart' });
+		}) 
+	</script>
+</head>
+<body class="" id="top"> <!--==============================header=================================-->
+	<header>
+		<div class="clear"></div>
+		<div class="container_12">
+			<a href="index.html">
+				<img src="images2/LOGO2.png" alt="LOGO" style="width: 60%;">
+			</a>
+			<div class="grid_12">
+
+				<div class="menu_block">
+					<nav class="horizontal-nav full-width horizontalNav-notprocessed">
+						<ul class="sf-menu">
+							<li>
+								<a href="index.html">Home</a>
+								<ul>
+									<li><a href="#">history</a></li>
+									<li><a href="#">offers</a></li>
+									<li>
+										<a href="#">news</a>
+										<ul>
+											<li><a href="#">fresh </a></li>
+											<li><a href="#">archive</a></li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<li><a href="index-1.html">News </a></li>
+							<li class="current"><a href="index-2.html">Data</a></li>
+
+							<li><a href="index-3.html">Contacts</a></li>
+						</ul>
+					</nav>
+					<div class="clear"></div>
+				</div>
+				<div class="clear"></div>
+			</div>
+		</div>
+	</header>
+	<div class="image-container">
+
+		<div class="container3">
+			<div class="column3a">
+				<img name="ghe" src="images2/trong.png" alt="nem">
+				<p id="ghe2" style="text-align: center;font-size: 30px;">Không phát hiện người ngồi</p>
+				<p id="time" style="text-align: center;font-size: 20px;color: aqua;">Thời gian đã ngồi:</p>
+				<div class="temperature-notification">
+					<img class="notification-icon" name="temperature-notification" src="images2/normalTempIcon.jpg" alt="temperature-icon">
+				</div>
+			</div>
+			<div class="column3b">
+					<div class="circle">
+						<div id="circle1"></div>
+						<div id="circle2"></div>
+						<div id="circle3"></div>
+						<div id="circle4"></div>
+						<div id="circle5"></div>
+						<div id="circle6"></div>
+					</div>
+					<div class="warning-box">Nệm cảnh báo ngồi lâu</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+<br> <br>
+	<div class="top-section">
+		<div class="top-label">
+			<p class="setup-time-label" >Cài đặt thời gian nhắc nhở</p>
+			<div class="display-time-label">
+				<p class="settime" id="i-time-hour-remain">Thời gian đã cài đặt:</p>
+				<p class="settime2" id="i-time-minute-remain">phút</p>
+				<p class="settime2" id="i-time-second-remain">giây</p>
+			</div>
+		</div>
+		<div class="input-section">
+			<div class="time-hours-tab">
+				<input type="number" id="inputNumber" placeholder="Nhập giờ">
+				<button id="submitButton">Gửi</button>
+			</div>
+			<div class="time-minutes-tab">
+				<input type="number" id="inputNumber2" placeholder="Nhập phút">
+				<button id="submitButton2">Gửi</button>
+			</div>
+			<div class="time-seconds-tab">
+				<input type="number" id="inputNumber3" placeholder="Nhập giây">
+				<button id="submitButton3">Gửi</button>
+			</div>
+			<button class = "toggle-input-buttons" id="toggle-change-pillow-button">For sitting</button>
+		</div>
+		<div class="top-label">
+			<p class="setup-time-label" >Cài đặt thời gian thông báo</p>
+			<div class="display-time-label">
+				<p class="settime" id="i-time-hour-notifi">Thời gian đã cài đặt:</p>
+				<p class="settime2" id="i-time-minute-notifi">phút</p>
+			</div>
+		</div>
+		<div class="input-section">
+			<div class="time-hours-tab">
+				<input type="number" id="inputOntimeNumber" placeholder="Nhập giờ">
+				<button id="submitOntimeButton">Gửi</button>
+			</div>
+			<div class="time-minutes-tab">
+				<input type="number" id="inputOntimeNumber2" placeholder="Nhập phút">
+				<button id="submitOntimeButton2">Gửi</button>
+			</div>
+			<div class="time-seconds-tab">
+				<input type="number" id="inputOntimeNumber3" placeholder="Nhập giây">
+				<button id="submitOntimeButton3">Gửi</button>
+			</div>
+			<button class = "toggle-input-buttons" id="toggle-settime-button">Morning</button>
+		</div>
+		<div class="toggle-section">
+			<button id="toggleButton">Off</button>
+			<img name="music1" src="images2/on_music.png" alt="amthanh" style="width: 5%;margin-left: 20px;">
+
+			<a href="https://docs.google.com/spreadsheets/d/1H4CkR00RIhf5_R_koorhFXXxIwFcWuURrHcpZT5Tde8/edit?usp=sharing">
+				<img style="width: 30%;" src="images2/ss1.png" alt="Hình ảnh" />
+			  </a>
+
+		</div>
+		<div class="bottom-label">
+			<p>Nút điều khiển âm thanh</p>
+			
+		</div>
+		<div class="sensor-values">
+			<p class="sensor-value-label">Temperature set:</p> <p class="sensor-unit-label" id="i-temp-set"> Celcius</p>
+			<p class="sensor-value-label">Current Temperature</p> <p class="sensor-unit-label" id="i-temp-current"> Celcius</p>
+		</div>
+		<div class="temp-set-input">
+			<input type="text" id="i-input-tempset" placeholder="Nhập nhiệt độ:">
+			<button id="i-submit-tempset-button">Send</button>
+		</div>
+	</div>
+	<footer>
+		<div class="hor bg3"></div>
+		<div class="container_12">
+			<div class="grid_12 ">
+				<div class="socials">
+					<a href="#"></a>
+					<a href="#"></a>
+					<a href="#"></a>
+					<div class="clear"></div>
+				</div>
+				<div class="copy">
+					<strong>IOT Health Pillow</strong> &copy; <span id="copyright-year"></span> | <a href="#">Privacy
+						Policy</a> <br>
+					Website designed by Huu Phuoc Nguyen
+				</div>
+			</div>
+		</div>
+	</footer>
+	</div>
+	
+	<!-- FOR SCRIPT TAG FIREBASE -->
+	
+	<script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"> </script>
+	<script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-database.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-analytics.js"></script>
+	
+	<script >
+			
+			// TODO: Add SDKs for Firebase products that you want to use
+			// https://firebase.google.com/docs/web/setup#available-libraries
+			
+			// Your web app's Firebase configuration
+			// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+		const firebaseConfig = {
+			apiKey: "AIzaSyAhni0WPARhPKstzzpknvk5DCnOmLSNXYo",
+			authDomain: "fir-iotproject-f2faa.firebaseapp.com",
+			databaseURL: "https://fir-iotproject-f2faa-default-rtdb.firebaseio.com",
+			projectId: "fir-iotproject-f2faa",
+			storageBucket: "fir-iotproject-f2faa.appspot.com",
+			messagingSenderId: "561367817616",
+			appId: "1:561367817616:web:5bae75585f81ad452a6715",
+			measurementId: "G-CHNX81FCJ2"
+		};
+		
+		// Initialize Firebase
+		firebase.initializeApp(firebaseConfig);
+		firebase.analytics();
+	</script>
+
+	<!-- <script type="text/javascript" src="./test.js"></script> -->
+	<script src="./main.js"></script>
+</body>
+
+</html>
