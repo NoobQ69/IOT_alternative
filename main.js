@@ -5,6 +5,7 @@ var TimeStamp = "Morning";
 var TemperatureSet = 38;
 var TemperatureCurrent = 0;
 // Time remain for pillow
+var toggleButton = document.getElementById('toggleButton');
 var inputNumber = document.getElementById('inputNumber');
 var inputNumber2 = document.getElementById('inputNumber2');
 var inputNumber3 = document.getElementById('inputNumber3');
@@ -34,6 +35,12 @@ var pillow4 = firebase.database().ref().child('Pillow/SittingPillow/Pads/Pad4');
 var pillow5 = firebase.database().ref().child('Pillow/SittingPillow/Pads/Pad5');
 var pillow6 = firebase.database().ref().child('Pillow/SittingPillow/Pads/Pad6');
 
+var timeSetup = {hour: 0, minute: 0, second: 0};
+var timeNotificationMorning = {hour: 0, minute: 0, second: 0};
+var timeNotificationNight = {hour: 0, minute: 0, second: 0};
+var timeCurrent = {hour: 0, minute: 0, second: 0};
+var IsOn = 0;
+
 
 // Lấy giá trị từ Firebase và đặt vào mảng pillowValues
 var firebaseRefs = [
@@ -56,11 +63,8 @@ firebaseRefs.forEach(function (ref, index) {
 
 // Hàm kiểm tra giá trị của các pillow
 function checkPillowValues() {
-    var allZeros = pillowValues.every(function (value) {
-        return value === 0;
-    });
 
-    if (allZeros) {
+    if (IsOn === 0) {
         //console.log("Sai"); // In ra "Sai" nếu tất cả các giá trị đều là 0
         a = 0;
         //console.log(a);
@@ -72,66 +76,41 @@ function checkPillowValues() {
     if (a == 0) {
         document.getElementById("ghe2").innerHTML = "Không phát hiện người ngồi";
         document.images['ghe'].src = 'images2/trong.png';
+        changeCircleColor("circle1", "#681dfd94");
+        changeCircleColor("circle2", "#681dfd94");
+        changeCircleColor("circle3", "#681dfd94");
+        changeCircleColor("circle4", "#681dfd94");
+        changeCircleColor("circle5", "#681dfd94");
+        changeCircleColor("circle6", "#681dfd94");
+            
     }
     if (a == 1) {
         document.getElementById("ghe2").innerHTML = "Phát hiện người ngồi";
         document.images['ghe'].src = 'images2/ngoi.png';
-    }
-}																		
-
-pillow1.on('value', snap => {
-    if (snap.val() == 0) {
-        changeCircleColor("circle1", "#681dfd94");
-    }
-    if (snap.val() == 1) {
         changeCircleColor("circle1", "orange");
-    }
-});
-
-pillow2.on('value', snap => {
-    if (snap.val() == 0) {
-        changeCircleColor("circle2", "#681dfd94");
-    }
-    if (snap.val() == 1) {
         changeCircleColor("circle2", "orange");
-    }
-});
-pillow3.on('value', snap => {
-    if (snap.val() == 0) {
-        changeCircleColor("circle3", "#681dfd94");
-    }
-    if (snap.val() == 1) {
         changeCircleColor("circle3", "orange");
-    }
-});
-pillow4.on('value', snap => {
-    if (snap.val() == 0) {
-        changeCircleColor("circle4", "#681dfd94");
-    }
-    if (snap.val() == 1) {
         changeCircleColor("circle4", "orange");
-    }
-});
-pillow5.on('value', snap => {
-    if (snap.val() == 0) {
-        changeCircleColor("circle5", "#681dfd94");
-    }
-    if (snap.val() == 1) {
         changeCircleColor("circle5", "orange");
-    }
-});
-pillow6.on('value', snap => {
-    if (snap.val() == 0) {
-        changeCircleColor("circle6", "#681dfd94");
-    }
-    if (snap.val() == 1) {
         changeCircleColor("circle6", "orange");
     }
-});
+}																		
 
 function changeCircleColor(circleId, color) {
     var circle = document.getElementById(circleId);
     circle.style.backgroundColor = color;
+}
+
+function sendValueToFirebase(value, pathToSend)
+{
+    var firebaseRef = firebase.database().ref().child(pathToSend);
+    firebaseRef.set(value)
+    .then(function () {
+        console.log("Send successfully:");
+    })
+    .catch(function (error) {
+        console.log("Lỗi khi gửi dữ liệu:", error);
+    });
 }
 
 function handleSubmitTime(getValue, format, pathToSend)
@@ -158,16 +137,10 @@ function handleSubmitTime(getValue, format, pathToSend)
 
     if (isValidNumber(numberValue)) {
         // Gửi dữ liệu lên Firebase
-        var firebaseRef = firebase.database().ref().child(pathToSend);
-        firebaseRef.set(numberValue)
-            .then(function () {
-                // Đặt lại giá trị của ô nhập liệu thành chuỗi rỗng
-                getValue.value = "";
-            })
-            .catch(function (error) {
-                console.log("Lỗi khi gửi dữ liệu:", error);
-            });
-    } else {
+        sendValueToFirebase(numberValue, pathToSend);
+        getValue.value = "";
+    } 
+    else {
         console.log("Giá trị không hợp lệ");
     }
 }
@@ -187,16 +160,10 @@ function handleSubmitTemperature(getValue, pathToSend)
 
     if (isValidNumber(numberValue)) {
         // Gửi dữ liệu lên Firebase
-        var firebaseRef = firebase.database().ref().child(pathToSend);
-        firebaseRef.set(numberValue)
-            .then(function () {
-                // Đặt lại giá trị của ô nhập liệu thành chuỗi rỗng
-                getValue.value = "";
-            })
-            .catch(function (error) {
-                console.log("Lỗi khi gửi dữ liệu:", error);
-            });
-    } else {
+        sendValueToFirebase(numberValue, pathToSend);
+        getValue.value = "";
+    }
+    else {
         console.log("Giá trị không hợp lệ");
     }
 }
@@ -218,12 +185,15 @@ submitButtonSecond.addEventListener('click', function () {
 
 
 submitButtonOnTimeHour.addEventListener('click', function () {
+    isSent = 1;
     handleSubmitTime(inputOnTimeNumber, 23, 'Pillow/TimeSet/'+ TimeStamp +'/hour');
 });
 submitButtonOnTimeMinute.addEventListener('click', function () {
+    isSent = 1;
     handleSubmitTime(inputOnTimeNumber2, 59, 'Pillow/TimeSet/'+ TimeStamp +'/minute');
 });
 submitButtonOnTimeSecond.addEventListener('click', function () {
+    isSent = 1;
     handleSubmitTime(inputOnTimeNumber3, 59, 'Pillow/TimeSet/'+ TimeStamp +'/second');
 });
 
@@ -233,9 +203,12 @@ submitTempSet.addEventListener('click', () =>{
 });
 
 toggleButton.addEventListener('click', function () {
-    var value = toggleButton.classList.contains('On') ? '1' : '0';
+    toggleButton.classList.toggle('on');
+    toggleButton.classList.toggle('off');
+    var value = toggleButton.classList.contains('on') ? 1 : 0;
     
     if(toggleButton.textContent === "On") {
+        console.log("Off");
         toggleButton.textContent = "Off"
         document.images['music1'].src = 'images2/off_music.png';
         
@@ -247,13 +220,14 @@ toggleButton.addEventListener('click', function () {
         })
     }
     else{
+        console.log("On");
         toggleButton.textContent = "On"
         document.images['music1'].src = 'images2/on_music.png';
     }
 
     // Gửi giá trị đến Firebase
     var firebaseRef = firebase.database().ref().child('Pillow/'+ PillowType +'/SoundOn');
-    firebaseRef.set(value)
+    firebaseRef.set(parseInt(value))
         .then(function () {
             console.log("Đã gửi giá trị thành công:", value);
         })
@@ -311,7 +285,7 @@ toggleSettimeButton.addEventListener('click', function() {
 });
 
 toggleChangePillowButton.addEventListener('click', function() {
-  // Toggle the text between "morning" and "night"
+    // Toggle the text between "morning" and "night"
     if (toggleChangePillowButton.textContent === "For sitting") {
         toggleChangePillowButton.textContent = "For sleeping";
         PillowType = "SleepingPillow";
@@ -319,28 +293,152 @@ toggleChangePillowButton.addEventListener('click', function() {
         toggleChangePillowButton.textContent = "For sitting";
         PillowType = "SittingPillow";
     }
-});
+});    
 
-var settime = firebase.database().ref().child('Pillow/'+ PillowType +'/hour');
-var settime2 = firebase.database().ref().child('Pillow/'+ PillowType +'/minute');
-var settime3 = firebase.database().ref().child('Pillow/'+ PillowType +'/second');
-var setNotificationTimeHour = firebase.database().ref().child('Pillow/TimeSet/'+TimeStamp+'/hour');
-var setNotificationTimeMinute = firebase.database().ref().child('Pillow/TimeSet/'+TimeStamp+'/minute');
+var settime = firebase.database().ref('Pillow/SittingPillow/hour');
+var settime2 = firebase.database().ref().child('Pillow/SittingPillow/minute');
+var settime3 = firebase.database().ref().child('Pillow/SittingPillow/second');
+var setOntime = firebase.database().ref().child('Pillow/SleepingPillow/hour');
+var setOntime2 = firebase.database().ref().child('Pillow/SleepingPillow/minute');
+var setOntime3 = firebase.database().ref().child('Pillow/SleepingPillow/second');
+var setNotificationTimeHour = firebase.database().ref().child('Pillow/TimeSet/Morning/hour');
+var setNotificationTimeMinute = firebase.database().ref().child('Pillow/TimeSet/Morning/minute');
+var setNotificationTimeHour2 = firebase.database().ref().child('Pillow/TimeSet/Night/hour');
+var setNotificationTimeMinute2 = firebase.database().ref().child('Pillow/TimeSet/Night/minute');
 
 settime.on('value', snap => {
+    timeSetup.hour = parseInt(snap.val());
     document.getElementById("i-time-hour-remain").innerHTML = "Thời gian: " + snap.val() + " giờ";
 });
 settime2.on('value', snap => {
+    timeSetup.minute = parseInt(snap.val());
     document.getElementById("i-time-minute-remain").innerHTML = " : " + snap.val() + " phút";
 });
 settime3.on('value', snap => {
+    timeSetup.second = parseInt(snap.val());
+    document.getElementById("i-time-second-remain").innerHTML = " : " + snap.val() + " giây";
+});
+
+setOntime.on('value', snap => {
+    timeSetup.hour = parseInt(snap.val());
+    document.getElementById("i-time-hour-remain").innerHTML = "Thời gian: " + snap.val() + " giờ";
+});
+setOntime2.on('value', snap => {
+    timeSetup.minute = parseInt(snap.val());
+    document.getElementById("i-time-minute-remain").innerHTML = " : " + snap.val() + " phút";
+});
+setOntime3.on('value', snap => {
+    timeSetup.minute = parseInt(snap.val());
     document.getElementById("i-time-second-remain").innerHTML = " : " + snap.val() + " giây";
 });
 
 setNotificationTimeHour.on('value', snap => {
+    timeNotificationMorning.hour = parseInt(snap.val());
     document.getElementById("i-time-hour-notifi").innerHTML = "Thời gian: " + snap.val() + " giờ";
 });
-
 setNotificationTimeMinute.on('value', snap => {
+    timeNotificationMorning.minute = parseInt(snap.val());
     document.getElementById("i-time-minute-notifi").innerHTML = " : " + snap.val() + " phút";
 });
+setNotificationTimeHour2.on('value', snap => {
+    timeNotificationNight.hour = parseInt(snap.val());
+    document.getElementById("i-time-hour-notifi").innerHTML = "Thời gian: " + snap.val() + " giờ";
+});
+setNotificationTimeMinute2.on('value', snap => {
+    timeNotificationNight.minute = parseInt(snap.val());
+    document.getElementById("i-time-minute-notifi").innerHTML = " : " + snap.val() + " phút";
+});
+
+var isSomeoneSittingOn = firebase.database().ref().child('Pillow/'+ PillowType +'/IsOn');
+function resetCurrentTime()
+{
+    timeCurrent.hour = 0;
+    timeCurrent.minute = 0;
+    timeCurrent.second = 0;
+}
+
+function printCountingTimeFunc()
+{
+    console.log(timeCurrent.hour);
+    console.log(timeCurrent.minute);
+    console.log(timeCurrent.second);
+}
+// Update the count down every 1 second
+function countingTime() {
+    if (timeCurrent.hour === timeSetup.hour && timeCurrent.minute === timeSetup.minute && timeCurrent.second === timeSetup.second)
+    {
+        sendValueToFirebase(1, 'Pillow/'+ PillowType +'/Warning');
+        clearInterval(count);
+    }
+    else
+    {
+        printCountingTimeFunc();
+
+        timeCurrent.second += 1;
+        if (timeCurrent.second > 59)
+        {
+            timeCurrent.second = 0;
+            timeCurrent.minute++;
+            if (timeCurrent.minute > 59)
+            {
+                timeCurrent.minute = 0;
+                timeCurrent.hour++;
+            }
+        }
+    }
+    var printCountingTime = document.getElementById("i-time-counting-value");
+    var printCountingTimeBuffer = "";
+    if (timeCurrent.hour > 0) {
+        printCountingTimeBuffer += timeCurrent.hour + " h"; 
+    }
+    printCountingTimeBuffer += timeCurrent.minute + " m " + timeCurrent.second +" s";
+    printCountingTime.innerHTML = printCountingTimeBuffer;
+}
+
+var count = setInterval(countingTime, 1000);
+
+isSomeoneSittingOn.on('value', snap => {
+    if (snap.val() === 0)
+    {
+        IsOn = 0;
+        resetCurrentTime();
+        clearInterval(count);
+        sendValueToFirebase(0, 'Pillow/'+ PillowType +'/Warning');
+        checkPillowValues();
+    }
+    else if (snap.val() === 1)
+    {
+        IsOn = 1;
+        count = setInterval(countingTime, 1000);
+        checkPillowValues();
+    }
+});
+
+var isSent = 1;
+
+var x = setInterval(function() {
+  // Get today's date and time
+    var now = new Date();
+
+    var seconds = now.getSeconds();
+    var minutes = now.getMinutes();
+    var hours = now.getHours();
+
+    if (timeNotificationMorning.hour === hours && timeNotificationMorning.minute === minutes) {
+        
+        if (isSent === 1) {
+            isSent = 0;
+            sendValueToFirebase(1, 'Pillow/'+ PillowType +'/Notify');
+        }
+    }
+    else if (timeNotificationNight.hour === hours && timeNotificationNight.minute === minutes) {
+        if (isSent === 1){
+            isSent = 0;
+            sendValueToFirebase(2, 'Pillow/'+ PillowType +'/Notify');
+        }
+    }
+    else
+    {
+        isSent = 1;
+    }
+}, 1000);
